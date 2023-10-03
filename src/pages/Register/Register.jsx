@@ -2,6 +2,7 @@ import { useContext } from "react";
 import Navbar from "../Shared/Navbar/Navbar";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
+import toast from "react-hot-toast";
 
 const Register = () => {
   const { createUser } = useContext(AuthContext);
@@ -17,8 +18,11 @@ const Register = () => {
     // const photoUrl = form.get("photoUrl");
 
     createUser(email, password)
-      .then((result) => console.log(result.user))
-      .catch((err) => console.log(err.message));
+      .then(
+        (result) =>
+          result.user && toast.success("User registered successfully!")
+      )
+      .catch((err) => toast.error(err.message));
   };
   return (
     <div>

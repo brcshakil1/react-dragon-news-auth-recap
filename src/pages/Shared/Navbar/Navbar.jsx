@@ -1,7 +1,15 @@
 import { Link, NavLink } from "react-router-dom";
 import userDefaultPic from "../../../assets/user.png";
+import { useContext } from "react";
+import { AuthContext } from "../../../context/AuthProvider";
 
 const Navbar = () => {
+  const { user, loggedOut } = useContext(AuthContext);
+
+  const handleLogOut = () => {
+    loggedOut();
+  };
+
   const navLinks = (
     <>
       <li>
@@ -48,14 +56,34 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1">{navLinks}</ul>
       </div>
       <div className="navbar-end">
-        <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-          <div className="w-10 rounded-full">
-            <img src={userDefaultPic} />
-          </div>
-        </label>
-        <Link to="login">
-          <button className="btn">Login</button>
-        </Link>
+        <div className="dropdown dropdown-end">
+          <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+            <div className="w-10 rounded-full">
+              <img src={user ? user?.photoURL : userDefaultPic} />
+            </div>
+          </label>
+          <ul
+            tabIndex={0}
+            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+          >
+            <li>
+              <a className="justify-between">
+                {user
+                  ? user?.displayName || "You didn't provide any name here"
+                  : "User did not login"}
+              </a>
+            </li>
+          </ul>
+        </div>
+        {user ? (
+          <button className="btn ml-2" onClick={handleLogOut}>
+            Logout
+          </button>
+        ) : (
+          <Link to="/login">
+            <button className="btn ml-2">Login</button>
+          </Link>
+        )}
       </div>
     </div>
   );
