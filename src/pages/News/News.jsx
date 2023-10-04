@@ -1,7 +1,14 @@
+import { useParams } from "react-router-dom";
+import Header from "./../Shared/Header/Header";
+import Navbar from "../Shared/Navbar/Navbar";
+
 const News = () => {
+  const { id } = useParams();
   return (
     <div>
-      <h1>News</h1>
+      <Header></Header>
+      <Navbar></Navbar>
+      <h1>News: {id}</h1>
     </div>
   );
 };
